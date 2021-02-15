@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='applicant',
             name='date_of_marriage',
-            field=models.DateField(default='', null=True),
+            field=models.DateField(null=True),
         ),
     ]

@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='applicant',
             name='date_of_scholarship',
-            field=models.DateField(default='', null=True, verbose_name='Date from which scholarship is awarded'),
+            field=models.DateField(null=True, verbose_name='Date from which scholarship is awarded'),
         ),
     ]

@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='applicant',
             name='application_received_by_hcu_date',
-            field=models.DateTimeField(default='', null=True, verbose_name='Application Received by H.C.Unit Date:'),
+            field=models.DateTimeField(null=True, verbose_name='Application Received by H.C.Unit Date:'),
         ),
     ]

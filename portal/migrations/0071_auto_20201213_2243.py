@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='applicant',
             name='scholarship_awarded_upto',
-            field=models.DateField(default='', verbose_name='Initially the scholarship awarded up to'),
+            field=models.DateField(verbose_name='Initially the scholarship awarded up to'),
         ),
     ]
