@@ -210,7 +210,6 @@ class Applicant(models.Model):
                     )
                 else:
                     pass
-            
         super(Applicant, self).save(*args, **kwargs)
 
     def delete(self, using=None, keep_parents=False):
@@ -259,37 +258,13 @@ class OccupiedList(models.Model):
         return self.building
 
     def save(self, *args, **kwargs):
-        qs = Applicant.objects.all().filter(acad_details_verified=True, marriage_certificate_verified=True,
-                                      joint_photograph_with_spouse_verified=True,
-                                      coursework_grade_sheet_verified=True,
-                                      recommendation_of_guide_for_accomodation_verified=True).order_by('date_applied')
-        for student in self.applicant.all():
-            if self.building == 'Type-1':
-                student.occupied_Type1 = True
-                qs_excluded = qs.exclude(id=student.id)  # exclude the current applicant and all those who are already occupying
-                qs_excluded = qs_excluded.exclude(waitlist_Type1__lte=student.waitlist_Type1) # list of students having higher waitlist than current applicant
-                qs_excluded.update(waitlist_Type1 = F('waitlist_Type1') - 1)
-                student.waitlist_Type1 = 0
-            elif self.building == 'Tulsi':
-                student.occupied_Tulsi = True
-                qs_excluded = qs.exclude(
-                    id=student.id)  # exclude the current applicant and all those who are already occupying
-                qs_excluded = qs_excluded.exclude(
-                    waitlist_Tulsi__lte=student.waitlist_Tulsi)  # list of students having higher waitlist than current applicant
-                qs_excluded.update(waitlist_Tulsi=F('waitlist_Tulsi') - 1)
-                student.waitlist_Tulsi = 0
-            elif self.building == 'Manas':
-                student.occupied_MRSB = True
-                qs_excluded = qs.exclude(
-                    id=student.id)  # exclude the current applicant and all those who are already occupying
-                qs_excluded = qs_excluded.exclude(
-                    waitlist_MRSB__lte=student.waitlist_MRSB)  # list of students having higher waitlist than current applicant
-                qs_excluded.update(waitlist_MRSB=F('waitlist_MRSB') - 1)
-                student.waitlist_MRSB = 0
-            student.save(flag=True)
-        super().save(*args, **kwargs)
-        # Send an email
-        
+        # buildings = OccupiedList.objects.filter(building='Tulsi')
+        # print(buildings.values_list('applicant__name')) # 6
+        # print(self.applicant.all())
+        super(OccupiedList, self).save(*args, **kwargs)
+        # print(self.applicant.all())
+        # buildings = OccupiedList.objects.filter(building='Tulsi')
+        # print(buildings.values_list('applicant__name'))  # 6
 class VacatedList(models.Model):
     building = models.CharField(max_length=125, unique=True)
     applicant = models.ManyToManyField(Applicant, blank=True)
